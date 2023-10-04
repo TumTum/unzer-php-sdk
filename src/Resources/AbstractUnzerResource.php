@@ -334,7 +334,7 @@ abstract class AbstractUnzerResource implements UnzerParentInterface
      */
     public function jsonSerialize()
     {
-        return json_encode($this->expose(), JSON_UNESCAPED_SLASHES | JSON_PRESERVE_ZERO_FRACTION);
+        return json_encode($this->expose(), JSON_UNESCAPED_SLASHES | JSON_PRESERVE_ZERO_FRACTION | JSON_UNESCAPED_UNICODE);
     }
 
     /**
