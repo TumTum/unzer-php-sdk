@@ -125,7 +125,10 @@ class HttpService
         $payload = $resource->jsonSerialize();
         //Workaround for Polnish Basket
         if (str_contains($requestUrl, '/v2/baskets')) {
-            $payload = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $payload);
+            if ($resource->getCurrencyCode() === "PLN") {
+                setlocale(LC_ALL, 'pl_PL');
+                $payload = iconv('UTF-8', 'ASCII//TRANSLIT', $payload);
+            }
         }
         //end Workaround
         $headers = $this->composeHttpHeaders($unzerObj);
