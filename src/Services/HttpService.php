@@ -122,6 +122,14 @@ class HttpService
         // perform request
         $requestUrl = $this->buildRequestUrl($uri, $apiVersion, $unzerObj);
         $payload = $resource->jsonSerialize();
+        //Workaround for Polnish Basket
+        if (str_contains($requestUrl, '/v2/baskets')) {
+            if ($resource->getCurrencyCode() === "PLN") {
+                setlocale(LC_ALL, 'pl_PL');
+                $payload = iconv('UTF-8', 'ASCII//TRANSLIT', $payload);
+            }
+        }
+        //end Workaround
         $headers = $this->composeHttpHeaders($unzerObj);
         $this->initRequest($requestUrl, $payload, $httpMethod, $headers);
         $httpAdapter  = $this->getAdapter();
